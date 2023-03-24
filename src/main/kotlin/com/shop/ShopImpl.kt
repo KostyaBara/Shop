@@ -61,7 +61,7 @@ class ShopImpl : Shop {
         products.find { it.id == id }
 
     override fun findProducts(name: String): List<Product> {
-        TODO("Not yet implemented")
+        return products
     }
 
     override fun findProducts(onSale: Boolean): List<Product> {
