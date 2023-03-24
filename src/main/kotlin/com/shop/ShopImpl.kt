@@ -57,9 +57,8 @@ class ShopImpl : Shop {
         TODO("Not yet implemented")
     }
 
-    override fun findProduct(id: Long): Product? {
-        TODO("Not yet implemented")
-    }
+    override fun findProduct(id: Long) =
+        products.find { it.id == id }
 
     override fun findProducts(name: String): List<Product> {
         TODO("Not yet implemented")
