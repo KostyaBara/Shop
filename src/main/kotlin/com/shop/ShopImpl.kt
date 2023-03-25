@@ -9,6 +9,7 @@ import java.util.*
 class ShopImpl : Shop {
 
     private val productsList = mutableListOf<Product>()
+    private val clientsList = mutableListOf<Client>()
 
     override fun addProduct(product: Product) {
         println("addProduct $product")
@@ -77,25 +78,23 @@ class ShopImpl : Shop {
     override fun findProducts(predicate: (Product) -> Boolean) =
         productsList.filter { true }
 
-    override fun findClient(id: Long): Client? {
-        TODO("Not yet implemented")
-    }
+    override fun findClient(id: Long) =
+        clientsList.find { it.id == id }
 
-    override fun findClients(name: String): List<Client> {
-        TODO("Not yet implemented")
-    }
+    override fun findClients(name: String) =
+        clientsList.filter { it.name.contains(name, true) }
 
-    override fun findClients(isVip: Boolean): List<Client> {
-        TODO("Not yet implemented")
-    }
+    override fun findClients(isVip: Boolean) = clientsList.filter { it.isVip }
 
     override fun findClients(age: Int, youngerThan: Boolean): List<Client> {
-        TODO("Not yet implemented")
+        val map = clientsList.groupBy { it.age < age }
+        return if (youngerThan) {
+            map.getValue(true)
+        } else map.getValue(false)
     }
 
-    override fun findClients(predicate: (Client) -> Boolean): List<Client> {
-        TODO("Not yet implemented")
-    }
+    override fun findClients(predicate: (Client) -> Boolean) = clientsList.filter { true }
+
 
     override fun hwoBuysMore(): Gender {
         TODO("Not yet implemented")
