@@ -67,11 +67,12 @@ class ShopImpl : Shop {
     override fun findProducts(onSale: Boolean) =
         productsList.filter { it.onSale }
 
-    override fun findProducts(price: Int, lowerThan: Boolean): List<Product>
-//        products.forEach { if (it. }
-//        (it.LowerThan) return
-//        products.filter { it.price < price}
-//    }
+    override fun findProducts(price: Int, lowerThan: Boolean): List<Product> {
+        val map = productsList.groupBy { it.price < price }
+        return if (lowerThan) {
+            map.getValue(true)
+        } else map.getValue(false)
+    }
 
     override fun findProducts(predicate: (Product) -> Boolean) =
         productsList.filter { true }
