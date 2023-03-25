@@ -95,7 +95,6 @@ class ShopImpl : Shop {
 
     override fun findClients(predicate: (Client) -> Boolean) = clientsList.filter { true }
 
-
     override fun hwoBuysMore(): Gender {
         TODO("Not yet implemented")
     }
