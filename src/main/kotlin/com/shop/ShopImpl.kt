@@ -8,15 +8,16 @@ import java.util.*
 
 class ShopImpl : Shop {
 
-    private val products = mutableListOf<Product>()
+    private val productsList = mutableListOf<Product>()
 
     override fun addProduct(product: Product) {
         println("addProduct $product")
-        products.add(product)
+        productsList.add(product)
     }
 
     override fun addProducts(products: List<Product>) {
-        TODO("Not yet implemented")
+//        for (i in products.indices) { println(products[i]) }
+        productsList.addAll(products)
     }
 
     override fun buyProduct(product: Product, client: Client) {
@@ -27,7 +28,7 @@ class ShopImpl : Shop {
         TODO("Not yet implemented")
     }
 
-    override fun allProducts() = products.toList()
+    override fun allProducts() = productsList.toList()
 
     override fun allClients(): List<Client> {
         TODO("Not yet implemented")
@@ -58,23 +59,22 @@ class ShopImpl : Shop {
     }
 
     override fun findProduct(id: Long) =
-        products.find { it.id == id }
+        productsList.find { it.id == id }
 
-    override fun findProducts(name: String): List<Product> {
-        return products
-    }
+    override fun findProducts(name: String) =
+        productsList.filter { it.name.contains(name, true) }
 
-    override fun findProducts(onSale: Boolean): List<Product> {
-        TODO("Not yet implemented")
-    }
+    override fun findProducts(onSale: Boolean) =
+        productsList.filter { it.onSale }
 
-    override fun findProducts(price: Int, lowerThan: Boolean): List<Product> {
-        TODO("Not yet implemented")
-    }
+    override fun findProducts(price: Int, lowerThan: Boolean): List<Product>
+//        products.forEach { if (it. }
+//        (it.LowerThan) return
+//        products.filter { it.price < price}
+//    }
 
-    override fun findProducts(predicate: (Product) -> Boolean): List<Product> {
-        TODO("Not yet implemented")
-    }
+    override fun findProducts(predicate: (Product) -> Boolean) =
+        productsList.filter { true }
 
     override fun findClient(id: Long): Client? {
         TODO("Not yet implemented")
