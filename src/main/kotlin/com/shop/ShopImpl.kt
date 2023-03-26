@@ -18,7 +18,6 @@ class ShopImpl : Shop {
     }
 
     override fun addProducts(products: List<Product>) {
-//        for (i in products.indices) { println(products[i]) }
         productsList.addAll(products)
     }
 
@@ -48,13 +47,11 @@ class ShopImpl : Shop {
         TODO("Not yet implemented")
     }
 
-    override fun mostExpensiveProduct(): Product? {
-        TODO("Not yet implemented")
-    }
+    override fun mostExpensiveProduct() =
+        productsList.maxByOrNull { it.price }
 
-    override fun mostExpensiveTransaction(): Transaction? {
-        TODO("Not yet implemented")
-    }
+    override fun mostExpensiveTransaction(): Transaction? =
+        transactionsList.maxByOrNull { it.totalPrice }
 
     override fun mostProfitClient(): Client? {
         TODO("Not yet implemented")
