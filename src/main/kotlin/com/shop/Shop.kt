@@ -59,7 +59,7 @@ interface Shop {
 
     fun findClients(predicate: (Client) -> Boolean): List<Client>
 
-    fun hwoBuysMore(): Gender // by default FEMALE
+    fun whoBuysMore(): Gender // by default FEMALE
 
     /** Transactions ??? =================== */
 

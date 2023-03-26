@@ -66,7 +66,7 @@ class ShopImpl : Shop {
         productsList.filter { it.name.contains(name, true) }
 
     override fun findProducts(onSale: Boolean) =
-        productsList.filter { it.onSale }
+        productsList.filter { it.onSale == onSale }
 
     override fun findProducts(price: Int, lowerThan: Boolean): List<Product> {
         val map = productsList.groupBy { it.price < price }
@@ -76,7 +76,7 @@ class ShopImpl : Shop {
     }
 
     override fun findProducts(predicate: (Product) -> Boolean) =
-        productsList.filter { true }
+        productsList.filter {  }
 
     override fun findClient(id: Long) =
         clientsList.find { it.id == id }
@@ -84,7 +84,7 @@ class ShopImpl : Shop {
     override fun findClients(name: String) =
         clientsList.filter { it.name.contains(name, true) }
 
-    override fun findClients(isVip: Boolean) = clientsList.filter { it.isVip }
+    override fun findClients(isVip: Boolean) = clientsList.filter { it.isVip == isVip }
 
     override fun findClients(age: Int, youngerThan: Boolean): List<Client> {
         val map = clientsList.groupBy { it.age < age }
