@@ -85,7 +85,8 @@ class ShopImpl : Shop {
     override fun findClients(name: String) =
         clientsList.filter { it.name.contains(name, ignoreCase = true) }
 
-    override fun findClients(isVip: Boolean) = clientsList.filter { it.isVip == isVip }
+    override fun findClients(isVip: Boolean) =
+        clientsList.filter { it.isVip == isVip }
 
     override fun findClients(age: Int, youngerThan: Boolean): List<Client> {
         val map = clientsList.groupBy { it.age < age }
@@ -94,7 +95,8 @@ class ShopImpl : Shop {
         } else map.getValue(false)
     }
 
-    override fun findClients(predicate: (Client) -> Boolean) = clientsList.filter { true }
+    override fun findClients(predicate: (Client) -> Boolean) =
+        clientsList.filter { true }
 
     override fun whoBuysMore(): Gender {
         TODO("Not yet implemented")
@@ -116,11 +118,9 @@ class ShopImpl : Shop {
         TODO("Not yet implemented")
     }
 
-    override fun findTransactionsBefore(date: Date): List<Transaction> {
-        TODO("Not yet implemented")
-    }
+    override fun findTransactionsBefore(date: Date) =
+        transactionsList.filter { it.date.before(date) }
 
-    override fun findTransactionsAfter(date: Date): List<Transaction> {
-        TODO("Not yet implemented")
-    }
+    override fun findTransactionsAfter(date: Date)=
+        transactionsList.filter { it.date.after(date) }
 }
