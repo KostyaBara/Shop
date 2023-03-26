@@ -10,6 +10,7 @@ class ShopImpl : Shop {
 
     private val productsList = mutableListOf<Product>()
     private val clientsList = mutableListOf<Client>()
+    private val transactionsList = mutableListOf<Transaction>()
 
     override fun addProduct(product: Product) {
         println("addProduct $product")
@@ -63,7 +64,7 @@ class ShopImpl : Shop {
         productsList.find { it.id == id }
 
     override fun findProducts(name: String) =
-        productsList.filter { it.name.contains(name, true) }
+        productsList.filter { it.name.contains(name, ignoreCase = true) }
 
     override fun findProducts(onSale: Boolean) =
         productsList.filter { it.onSale == onSale }
@@ -82,7 +83,7 @@ class ShopImpl : Shop {
         clientsList.find { it.id == id }
 
     override fun findClients(name: String) =
-        clientsList.filter { it.name.contains(name, true) }
+        clientsList.filter { it.name.contains(name, ignoreCase = true) }
 
     override fun findClients(isVip: Boolean) = clientsList.filter { it.isVip == isVip }
 
@@ -95,25 +96,21 @@ class ShopImpl : Shop {
 
     override fun findClients(predicate: (Client) -> Boolean) = clientsList.filter { true }
 
-    override fun hwoBuysMore(): Gender {
+    override fun whoBuysMore(): Gender {
         TODO("Not yet implemented")
     }
 
-    override fun findTransaction(id: Long): Transaction? {
-        TODO("Not yet implemented")
-    }
+    override fun findTransaction(id: Long) =
+        transactionsList.find { it.id == id }
 
-    override fun findTransactions(clientId: Long): List<Transaction> {
-        TODO("Not yet implemented")
-    }
+    override fun findTransactions(clientId: Long) =
+        transactionsList.filter { it.id == clientId }
 
-    override fun findTransactions(date: Date): List<Transaction> {
-        TODO("Not yet implemented")
-    }
+    override fun findTransactions(date: Date) =
+        transactionsList.filter { it.date == date }
 
-    override fun findTransactions(product: Product): List<Transaction> {
-        TODO("Not yet implemented")
-    }
+    override fun findTransactions(product: Product) =
+        transactionsList.filter { it.products.contains(product) }
 
     override fun findTransactions(predicate: (Transaction) -> Boolean): List<Transaction> {
         TODO("Not yet implemented")
