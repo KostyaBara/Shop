@@ -22,12 +22,29 @@ class ShopImpl : Shop {
         this.products.putAll(products)
 
 
-    override fun buyProduct(product: List<Product>, units: Int, client: Client) {
+    override fun buyProduct(product: Map<Product, Int>, client: Client) {
+        fun anchor(): Int {
+            val id = (1000..9999).random()
+            return id
+        }
+        val id = anchor()
+        if (transactionsList.none { it.id.toInt() == id }) {
+            print("")
+        }
+        else ::anchor
+
         val rnd = Random()
         val time = Date(abs(System.currentTimeMillis() - rnd.nextLong()))
-        val totalPrice = product.sumOf { it.price * units }
-        val id = (1000..9999).random()
-        val newTransaction = Transaction( id.toLong(), clientId = client.id, date = time, products = product, totalPrice )
+
+        var totalPrice = 0
+        product.forEach { totalPrice += (it.key.price * it.value) }
+
+        val newTransaction = Transaction( id.toLong(), clientId = client.id, date = time,
+            products = product.keys.toList(), totalPrice )
+
+        transactionsList.add(newTransaction)
+
+//        clients.forEach { if (!clients.any(client)) }
     }
 
     override fun buyProducts(products: List<Product>, client: Client) {

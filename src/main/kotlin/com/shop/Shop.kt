@@ -11,7 +11,7 @@ interface Shop {
 
     fun addProducts(products: Map<Product, Int>)
 
-    fun buyProduct(product: List<Product>, units: Int, client: Client)
+    fun buyProduct(product: Map<Product, Int>, client: Client)
 
     fun buyProducts(products: List<Product>, client: Client)
 
