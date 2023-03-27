@@ -8,36 +8,33 @@ import java.util.*
 
 class ShopImpl : Shop {
 
-    private val productsList = mutableListOf<Product>()
-    private val clientsList = mutableListOf<Client>()
+    private val products = mutableMapOf<Product, Int>()
+    private val clients = mutableSetOf<Client>()
     private val transactionsList = mutableListOf<Transaction>()
 
     override fun addProduct(product: Product) {
         println("addProduct $product")
-        productsList.add(product)
+        products.keys.add(product)
     }
 
-    override fun addProducts(products: List<Product>) {
-        productsList.addAll(products)
-    }
+    override fun addProducts(products: Map<Product, Int>) =
+        this.products.putAll(products)
+
 
     override fun buyProduct(product: Product, client: Client) {
-        TODO("Not yet implemented")
+
     }
 
     override fun buyProducts(products: List<Product>, client: Client) {
         TODO("Not yet implemented")
     }
 
-    override fun allProducts() = productsList.toList()
+    override fun allProducts() = products.toList()
 
-    override fun allClients(): List<Client> {
-        return clientsList
-    }
+    override fun allClients() = clients.toList()
 
-    override fun allTransactions(): List<Transaction> {
-        return transactionsList
-    }
+
+    override fun allTransactions() = transactionsList
 
     override fun mostPopularProduct(): Product? {
         TODO("Not yet implemented")
@@ -48,7 +45,7 @@ class ShopImpl : Shop {
     }
 
     override fun mostExpensiveProduct() =
-        productsList.maxByOrNull { it.price }
+        products.maxByOrNull { it.key.price }
 
     override fun mostExpensiveTransaction(): Transaction? =
         transactionsList.maxByOrNull { it.totalPrice }
@@ -57,35 +54,35 @@ class ShopImpl : Shop {
         TODO()
     }
 
-    override fun findProduct(id: Long) =
-        productsList.find { it.id == id }
+    override fun findProduct(id: Long): Product? =
+        products.keys.find { it.id == id }
 
     override fun findProducts(name: String) =
-        productsList.filter { it.name.contains(name, ignoreCase = true) }
+        products.filter { it.key.name.contains(name, ignoreCase = true) }
 
     override fun findProducts(onSale: Boolean) =
-        productsList.filter { it.onSale == onSale }
+        products.filter { it.key.onSale == onSale }
 
     override fun findProducts(price: Int, lowerThan: Boolean) =
-        productsList.filter { if (lowerThan) (it.price < price) else (it.price > price) }
+        products.filter { if (lowerThan) (it.key.price < price) else (it.key.price > price) }
 
     override fun findProducts(predicate: (Product) -> Boolean) =
-        productsList.filter(predicate)
+        products.filter ( predicate )
 
     override fun findClient(id: Long) =
-        clientsList.find { it.id == id }
+        clients.find { it.id == id }
 
     override fun findClients(name: String) =
-        clientsList.filter { it.name.contains(name, ignoreCase = true) }
+        clients.filter { it.name.contains(name, ignoreCase = true) }
 
     override fun findClients(isVip: Boolean) =
-        clientsList.filter { it.isVip == isVip }
+        clients.filter { it.isVip == isVip }
 
     override fun findClients(age: Int, youngerThan: Boolean) =
-        clientsList.filter { if (youngerThan) (it.age < age) else (it.age > age) }
+        clients.filter { if (youngerThan) (it.age < age) else (it.age > age) }
 
     override fun findClients(predicate: (Client) -> Boolean) =
-        clientsList.filter(predicate)
+        clients.filter(predicate)
 
     override fun whoBuysMore(): Gender {
         TODO("Not yet implemented")

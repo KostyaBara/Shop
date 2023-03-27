@@ -9,7 +9,7 @@ import java.util.*
 interface Shop {
     fun addProduct(product: Product)
 
-    fun addProducts(products: List<Product>)
+    fun addProducts(products: Map<Product, Int>)
 
     fun buyProduct(product: Product, client: Client)
 
@@ -17,7 +17,7 @@ interface Shop {
 
     /** Get all ====================+ */
 
-    fun allProducts(): List<Product> // returns only available products
+    fun allProducts(): List<Pair<Product, Int>> // returns only available products
 
     fun allClients(): List<Client>
 
@@ -29,7 +29,7 @@ interface Shop {
 
     fun mostAvailableProduct(): Product?
 
-    fun mostExpensiveProduct(): Product?
+    fun mostExpensiveProduct(): Map.Entry<Product, Int>?
 
     fun mostExpensiveTransaction(): Transaction?
 
@@ -39,13 +39,13 @@ interface Shop {
 
     fun findProduct(id: Long): Product?
 
-    fun findProducts(name: String): List<Product>
+    fun findProducts(name: String): Map<Product, Int>
 
-    fun findProducts(onSale: Boolean): List<Product>
+    fun findProducts(onSale: Boolean): Map<Product, Int>
 
-    fun findProducts(price: Int, lowerThan: Boolean = true): List<Product>
+    fun findProducts(price: Int, lowerThan: Boolean = true): Map<Product, Int>
 
-    fun findProducts(predicate: (Product) -> Boolean): List<Product>
+    fun findProducts(predicate: (Product) -> Boolean): Map<Product, Int>
 
     /** Clients ??? =================== */
 
