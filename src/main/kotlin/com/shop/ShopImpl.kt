@@ -32,11 +32,11 @@ class ShopImpl : Shop {
     override fun allProducts() = productsList.toList()
 
     override fun allClients(): List<Client> {
-        TODO("Not yet implemented")
+        return clientsList
     }
 
     override fun allTransactions(): List<Transaction> {
-        TODO("Not yet implemented")
+        return transactionsList
     }
 
     override fun mostPopularProduct(): Product? {
@@ -54,7 +54,7 @@ class ShopImpl : Shop {
         transactionsList.maxByOrNull { it.totalPrice }
 
     override fun mostProfitClient(): Client? {
-        TODO("Not yet implemented")
+        val eachClient = transactionsList.filter { it.clientId }
     }
 
     override fun findProduct(id: Long) =
@@ -74,7 +74,7 @@ class ShopImpl : Shop {
     }
 
     override fun findProducts(predicate: (Product) -> Boolean) =
-        productsList.filter {  }
+        productsList.filter { Product -> productsList.contains(Product) }
 
     override fun findClient(id: Long) =
         clientsList.find { it.id == id }
@@ -85,12 +85,14 @@ class ShopImpl : Shop {
     override fun findClients(isVip: Boolean) =
         clientsList.filter { it.isVip == isVip }
 
-    override fun findClients(age: Int, youngerThan: Boolean): List<Client> {
-        val map = clientsList.groupBy { it.age < age }
-        return if (youngerThan) {
-            map.getValue(true)
-        } else map.getValue(false)
-    }
+    override fun findClients(age: Int, youngerThan: Boolean) =
+        clientsList.filter { if (youngerThan) (it.age < age) else (it.age > age) }
+//    : List<Client> {
+//        val map = clientsList.groupBy { it.age < age }
+//        return if (youngerThan) {
+//            map.getValue(true)
+//        } else map.getValue(false)
+//    }
 
     override fun findClients(predicate: (Client) -> Boolean) =
         clientsList.filter { true }
