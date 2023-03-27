@@ -2,6 +2,7 @@ package com.shop
 
 import com.shop.data.products.*
 
+
 fun addProducts(shop: Shop) {
     shop.addProduct(Apple(id = 1, price = 10))
     shop.addProduct(Apple(id = 2, price = 12))

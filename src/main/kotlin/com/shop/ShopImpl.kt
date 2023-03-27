@@ -54,7 +54,7 @@ class ShopImpl : Shop {
         transactionsList.maxByOrNull { it.totalPrice }
 
     override fun mostProfitClient(): Client? {
-        val eachClient = transactionsList.filter { it.clientId }
+        TODO()
     }
 
     override fun findProduct(id: Long) =
@@ -66,15 +66,11 @@ class ShopImpl : Shop {
     override fun findProducts(onSale: Boolean) =
         productsList.filter { it.onSale == onSale }
 
-    override fun findProducts(price: Int, lowerThan: Boolean): List<Product> {
-        val map = productsList.groupBy { it.price < price }
-        return if (lowerThan) {
-            map.getValue(true)
-        } else map.getValue(false)
-    }
+    override fun findProducts(price: Int, lowerThan: Boolean) =
+        productsList.filter { if (lowerThan) (it.price < price) else (it.price > price) }
 
     override fun findProducts(predicate: (Product) -> Boolean) =
-        productsList.filter { Product -> productsList.contains(Product) }
+        productsList.filter(predicate)
 
     override fun findClient(id: Long) =
         clientsList.find { it.id == id }
@@ -87,15 +83,9 @@ class ShopImpl : Shop {
 
     override fun findClients(age: Int, youngerThan: Boolean) =
         clientsList.filter { if (youngerThan) (it.age < age) else (it.age > age) }
-//    : List<Client> {
-//        val map = clientsList.groupBy { it.age < age }
-//        return if (youngerThan) {
-//            map.getValue(true)
-//        } else map.getValue(false)
-//    }
 
     override fun findClients(predicate: (Client) -> Boolean) =
-        clientsList.filter { true }
+        clientsList.filter(predicate)
 
     override fun whoBuysMore(): Gender {
         TODO("Not yet implemented")
@@ -113,9 +103,8 @@ class ShopImpl : Shop {
     override fun findTransactions(product: Product) =
         transactionsList.filter { it.products.contains(product) }
 
-    override fun findTransactions(predicate: (Transaction) -> Boolean): List<Transaction> {
-        TODO("Not yet implemented")
-    }
+    override fun findTransactions(predicate: (Transaction) -> Boolean) =
+        transactionsList.filter(predicate)
 
     override fun findTransactionsBefore(date: Date) =
         transactionsList.filter { it.date.before(date) }
