@@ -5,6 +5,7 @@ import com.shop.data.Gender
 import com.shop.data.Product
 import com.shop.data.Transaction
 import java.util.*
+import kotlin.math.abs
 
 class ShopImpl : Shop {
 
@@ -21,8 +22,12 @@ class ShopImpl : Shop {
         this.products.putAll(products)
 
 
-    override fun buyProduct(product: Product, client: Client) {
-
+    override fun buyProduct(product: List<Product>, units: Int, client: Client) {
+        val rnd = Random()
+        val time = Date(abs(System.currentTimeMillis() - rnd.nextLong()))
+        val totalPrice = product.sumOf { it.price * units }
+        val id = (1000..9999).random()
+        val newTransaction = Transaction( id.toLong(), clientId = client.id, date = time, products = product, totalPrice )
     }
 
     override fun buyProducts(products: List<Product>, client: Client) {
