@@ -11,7 +11,7 @@ class ShopImpl : Shop {
 
     private val products = mutableMapOf<Product, Int>()
     private val clients = mutableSetOf<Client>()
-    private val transactionsList = mutableListOf<Transaction>()
+    private val transactions = mutableListOf<Transaction>()
 
     override fun addProduct(product: Product) {
         println("addProduct $product")
@@ -23,15 +23,13 @@ class ShopImpl : Shop {
 
 
     override fun buyProduct(product: Map<Product, Int>, client: Client) {
-        fun anchor(): Int {
-            val id = (1000..9999).random()
+
+        fun transactID(): Int {
+            var id = (1000..9999).random()
+            while (!(transactions.none { it.id.toInt() == id })) { id = transactID() }
             return id
         }
-        val id = anchor()
-        if (transactionsList.none { it.id.toInt() == id }) {
-            print("")
-        }
-        else ::anchor
+        val id = transactID()
 
         val rnd = Random()
         val time = Date(abs(System.currentTimeMillis() - rnd.nextLong()))
@@ -39,13 +37,22 @@ class ShopImpl : Shop {
         var totalPrice = 0
         product.forEach { totalPrice += (it.key.price * it.value) }
 
-        val newTransaction = Transaction( id.toLong(), clientId = client.id, date = time,
-            products = product.keys.toList(), totalPrice )
+        val newTransaction = Transaction(
+            id.toLong(), clientId = client.id, date = time,
+            products = product.keys.toList(), totalPrice
+        )
 
-        transactionsList.add(newTransaction)
+        transactions.add(newTransaction)
 
-        val products = product.keys
-
+        product.forEach {
+            if (products.keys.contains(it.key) ) {
+                for (i in products) if (i.key.name == it.key.name) i.value += it.value
+            } else {
+                products.putAll(product)
+            }
+        }
+    }
+        override fun buyProducts(products: List<Product>, client: Client) {
         TODO("Not yet implemented")
     }
 
@@ -54,7 +61,7 @@ class ShopImpl : Shop {
     override fun allClients() = clients.toList()
 
 
-    override fun allTransactions() = transactionsList
+    override fun allTransactions() = transactions
 
     override fun mostPopularProduct(): Product? {
         TODO("Not yet implemented")
@@ -68,7 +75,7 @@ class ShopImpl : Shop {
         products.maxByOrNull { it.key.price }
 
     override fun mostExpensiveTransaction(): Transaction? =
-        transactionsList.maxByOrNull { it.totalPrice }
+        transactions.maxByOrNull { it.totalPrice }
 
     override fun mostProfitClient(): Client? {
         TODO()
@@ -109,23 +116,23 @@ class ShopImpl : Shop {
     }
 
     override fun findTransaction(id: Long) =
-        transactionsList.find { it.id == id }
+        transactions.find { it.id == id }
 
     override fun findTransactions(clientId: Long) =
-        transactionsList.filter { it.id == clientId }
+        transactions.filter { it.id == clientId }
 
     override fun findTransactions(date: Date) =
-        transactionsList.filter { it.date == date }
+        transactions.filter { it.date == date }
 
     override fun findTransactions(product: Product) =
-        transactionsList.filter { it.products.contains(product) }
+        transactions.filter { it.products.contains(product) }
 
     override fun findTransactions(predicate: (Transaction) -> Boolean) =
-        transactionsList.filter(predicate)
+        transactions.filter(predicate)
 
     override fun findTransactionsBefore(date: Date) =
-        transactionsList.filter { it.date.before(date) }
+        transactions.filter { it.date.before(date) }
 
     override fun findTransactionsAfter(date: Date)=
-        transactionsList.filter { it.date.after(date) }
+        transactions.filter { it.date.after(date) }
 }
