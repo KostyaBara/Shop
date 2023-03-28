@@ -44,10 +44,8 @@ class ShopImpl : Shop {
 
         transactionsList.add(newTransaction)
 
-//        clients.forEach { if (!clients.any(client)) }
-    }
+        val products = product.keys
 
-    override fun buyProducts(products: List<Product>, client: Client) {
         TODO("Not yet implemented")
     }
 
