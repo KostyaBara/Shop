@@ -11,3 +11,7 @@ fun addProducts(shop: Shop) {
     shop.addProduct(Dates(id = 5, price = 80))
     shop.addProduct(Lemon(id = 6, price = 50))
 }
+
+fun testShop(shop: Shop) {
+    // ....
+}
