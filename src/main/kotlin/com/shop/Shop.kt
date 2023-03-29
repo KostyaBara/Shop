@@ -11,9 +11,7 @@ interface Shop {
 
     fun addProducts(products: Map<Product, Int>)
 
-    fun buyProduct(product: Map<Product, Int>, client: Client)
-
-    fun buyProducts(products: List<Product>, client: Client)
+    fun buyProduct(soldProducts: Map<Product, Int>, client: Client)
 
     /** Get all ====================+ */
 
