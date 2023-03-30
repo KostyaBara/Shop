@@ -1,17 +1,17 @@
 package com.game
 
+
 fun main() {
 
     val numberOfPlayers = mutableListOf<Int>()
     var raceDistance = 0
-    var vinners = mutableListOf<Player>()
     val players = mutableListOf<Player>()
-    val cat = Cat("Cat", (2..4).random(), 0, false)
-    val aardvark = Aardvark("Aardvark", (2..4).random(), 0, false)
-    val pig = Pig("Pig", (2..4).random(), 0, false)
-    val hare = Hare("Hare", (2..4).random(), 0, false)
-    val dog = Dog("Dog", (2..4).random(), 0, false)
-    val snake = Snake("Snake", (2..4).random(), 0, false)
+    val cat = Cat("Cat", (2..4).random())
+    val aardvark = Aardvark("Aardvark", (2..4).random())
+    val pig = Pig("Pig", (2..4).random())
+    val hare = Hare("Hare", (2..4).random())
+    val dog = Dog("Dog", (2..4).random())
+    val snake = Snake("Snake", (2..4).random())
     fun move(speed: Int): Int {
         return speed
     }
@@ -33,10 +33,12 @@ fun main() {
     } while (true)
 
     do {
-        raceDistance = readln().toInt()
+        raceDistance = readln().toIntOrNull() ?: 0
         if (raceDistance !in 40..80)
             println("Valid numbers are 40..80 !!!")
     } while (raceDistance !in 40..80)
+
+    Player.raceDistance = raceDistance
 
     numberOfPlayers.forEach {
         when (it) {
@@ -50,54 +52,34 @@ fun main() {
 
     }
     println("Players:")
-    var counter = 0
-    repeat(players.size) {
-        counter++
-        println("$counter. ${players[counter - 1].name}( {${players[counter - 1].speed}} )")
+    players.forEachIndexed { index, player ->
+        println("${index + 1}. ${player.name}( {${player.speed}} )")
     }
 
-    println("Press s to start: ")
     var s = "a"
     while (s != "s") {
+        println("Press s to start: ")
         s = readln()
     }
 
-    var x = true
-    while (x) {
-        players.forEach {
-            if (it.distanceCovered >= raceDistance) {
-                vinners = players.filter { it.distanceCovered >= raceDistance }.toMutableList()
-                x = false
-            }
-        }
-//
-            players.forEach {
-                if (it.isFallenDown) {
-                    it.distanceCovered -= move(it.speed)
-                    it.isFallenDown = false
-                }
-
-                it.distanceCovered += move(it.speed)
-                val randomNum1 = (1..100).random()
-                if (randomNum1 < 20) {
-                    println("${it.name}   ")
-                    print("${it.speak()}")
-                }
-
-                val randomNum2 = (1..(100 - (it.speed * 15))).random()
-                if (randomNum2 < 10) {
-                    it.isFallenDown = true
-                }
+    while (players.none { it.distanceCompleted() }) {
+        println("")
+        players.forEach { player ->
+            player.apply {
+                move()
+                speakRandom()
+                printDistance()
             }
         }
 
-    println(players)
+        Thread.sleep(1_000)
 
-    vinners.forEach { it.winnerSpeech() }
+        println("")
+    }
 
-//        println(players)
-//        println("Vinners: $vinners")
-
+    players
+        .filter { it.distanceCompleted() }
+        .forEach { it.winnerSpeech() }
 }
 
 
