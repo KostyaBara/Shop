@@ -22,7 +22,7 @@ class ShopImpl : Shop {
         this.products.putAll(products)
 
 
-    override fun buyProduct(soldProducts: Map<Product, Int>, client: Client) {
+    override fun buyProducts(soldProducts: Map<Product, Int>, client: Client) {
 
         fun transactID(): Int {
             var id = (1000..9999).random()
@@ -38,19 +38,25 @@ class ShopImpl : Shop {
         soldProducts.forEach { totalPrice += (it.key.price * it.value) }
 
         val newTransaction = Transaction(
-            id.toLong(), clientId = client.id, date = time,
-            products = soldProducts.keys.toList(), totalPrice
+            id.toLong(),
+            clientId = client.id,
+            date = time,
+            products = soldProducts.keys.toList(),
+            totalPrice
         )
 
         transactions.add(newTransaction)
 
         soldProducts.forEach {
-            if (products.keys.contains(it.key)) {
+            if (products.keys.contains(it.key) ) {
                 products[it.key] = products[it.key]!! - it.value
             } else {
-                throw IllegalArgumentException("${it.key} is not in the shop!")
+                throw IllegalAccessException("${it.key} ")
             }
         }
+    }
+        fun buy1Prod(products: List<Product>, client: Client) {
+        TODO("Not yet implemented")
     }
 
     override fun allProducts() = products.toList()
@@ -91,7 +97,7 @@ class ShopImpl : Shop {
         products.filter { if (lowerThan) (it.key.price < price) else (it.key.price > price) }
 
     override fun findProducts(predicate: (Product) -> Boolean) =
-        products.filter { predicate(it.key) }
+        products.filter { predicate((it.key) ) }
 
     override fun findClient(id: Long) =
         clients.find { it.id == id }
